@@ -1,4 +1,3 @@
-
 ;;; ELPA repos
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
@@ -41,3 +40,51 @@
 ;;; Python Autocomplete
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)                 ; optional
+
+;;; Keybindings
+(global-set-key (kbd "C-?") 'transparency-set-value)
+(global-set-key (kbd "C->") 'transparency-increase)
+(global-set-key (kbd "C-<") 'transparency-decrease)
+
+(defun transparency-set-initial-value ()
+  "Set initial value of alpha parameter for the current frame"
+  (interactive)
+  (if (equal (frame-parameter nil 'alpha) nil)
+      (set-frame-parameter nil 'alpha 100)))
+ 
+(defun transparency-set-value (numb)
+  "Set level of transparency for the current frame"
+  (interactive "nEnter transparency level in range 0-100: ")
+  (if (> numb 100)
+      (message "Error! The maximum value for transparency is 100!")
+    (if (< numb 0)
+        (message "Error! The minimum value for transparency is 0!")
+      (set-frame-parameter nil 'alpha numb))))
+ 
+(defun transparency-increase ()
+  "Increase level of transparency for the current frame"
+  (interactive)
+  (transparency-set-initial-value)
+   (if (> (frame-parameter nil 'alpha) 0)
+       (set-frame-parameter nil 'alpha (+ (frame-parameter nil 'alpha) -2))
+     (message "This is a minimum value of transparency!")))
+ 
+(defun transparency-decrease ()
+  "Decrease level of transparency for the current frame"
+  (interactive)
+  (transparency-set-initial-value)
+  (if (< (frame-parameter nil 'alpha) 100)
+      (set-frame-parameter nil 'alpha (+ (frame-parameter nil 'alpha) +2))
+    (message "This is a minimum value of transparency!")))
+
+(add-to-list 'load-path "/opt/local/share/emacs/site-lisp/slime")
+(require 'slime-autoloads)
+(setq slime-lisp-implementations
+     `((sbcl ("/opt/local/bin/sbcl"))
+       (abcl ("/opt/local/bin/abcl"))
+       (clisp ("/opt/local/bin/clisp"))))
+(slime-setup  '(slime-repl slime-asdf slime-fancy slime-banner))
+
+
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(require 'browser-refresh)
