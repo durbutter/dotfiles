@@ -35,10 +35,11 @@
 (setq powerline-color1 "grey22")
 (setq powerline-color2 "grey40")
 
-;;; ELPY
 ;;; Enable Elpy
 (package-initialize)
 (elpy-enable)
+
+(add-hook 'before-save-hook 'whitespace-cleanup)
 
 ;;; I like jedi. Use that instead of rope.
 (setq elpy-rpc-backend "jedi")
@@ -46,7 +47,7 @@
 ;;;Meta-arrows to move around code?!?!? GET OUT.
 (eval-after-load "elpy"
   '(cl-dolist (key '("M-<up>" "M-<down>" "M-<left>" "M-<right>"))
-          (define-key elpy-mode-map (kbd key) nil)))
+	  (define-key elpy-mode-map (kbd key) nil)))
 
 ;;; SLIME
 (add-to-list 'load-path "/opt/local/share/emacs/site-lisp/slime")
@@ -57,12 +58,9 @@
        (clisp ("/opt/local/bin/clisp"))))
 (slime-setup  '(slime-repl slime-asdf slime-fancy slime-banner))
 
-
-(add-to-list 'load-path "~/.emacs.d/lisp")
-(require 'browser-refresh)
-
-;;----------
-;; Add ipdb breakpoint
+;; Keybinding to add breakpoint:
 (defun python-add-breakpoint ()
   (interactive)
   (insert "import ipdb; ipdb.set_trace()"))
+
+(define-key python-mode-map (kbd "C-h C-k") 'python-add-breakpoint)
