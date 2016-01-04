@@ -63,4 +63,4 @@
   (interactive)
   (insert "import ipdb; ipdb.set_trace()"))
 
-(define-key python-mode-map (kbd "C-h C-k") 'python-add-breakpoint)
+(global-set-key (kbd "C-h C-k") 'python-add-breakpoint)
