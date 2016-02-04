@@ -1,6 +1,5 @@
-# My Dotfiles #
+# Evan M's Dotfiles #
 
 We got some:
-* .emacs
+* .emacs (heavy Aquamacs integration)
 * Sublime keybindings
-* more to come
