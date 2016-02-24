@@ -21,7 +21,10 @@
   (color-theme-initialize)
   (color-theme-clarity)
   (aquamacs-autoface-mode 0)
-  (tool-bar-mode 0))
+  (tool-bar-mode 0)
+  ;;; Enable Elpy
+  (package-initialize)
+  (elpy-enable))
 
 ;;; Powerline theme
 ;;; cd ~/.emacs.d/vendor
@@ -35,10 +38,6 @@
 (setq powerline-color1 "grey22")
 (setq powerline-color2 "grey40")
 
-;;; Enable Elpy
-(package-initialize)
-(elpy-enable)
-
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
 ;;; I like jedi. Use that instead of rope.
@@ -49,14 +48,14 @@
   '(cl-dolist (key '("M-<up>" "M-<down>" "M-<left>" "M-<right>"))
 	  (define-key elpy-mode-map (kbd key) nil)))
 
-;;; SLIME
-(add-to-list 'load-path "/opt/local/share/emacs/site-lisp/slime")
-(require 'slime-autoloads)
-(setq slime-lisp-implementations
-     `((sbcl ("/opt/local/bin/sbcl"))
-       (abcl ("/opt/local/bin/abcl"))
-       (clisp ("/opt/local/bin/clisp"))))
-(slime-setup  '(slime-repl slime-asdf slime-fancy slime-banner))
+;; ;;; SLIME
+;; (add-to-list 'load-path "/opt/local/share/emacs/site-lisp/slime")
+;; (require 'slime-autoloads)
+;; (setq slime-lisp-implementations
+;;      `((sbcl ("/opt/local/bin/sbcl"))
+;;        (abcl ("/opt/local/bin/abcl"))
+;;        (clisp ("/opt/local/bin/clisp"))))
+;; (slime-setup  '(slime-repl slime-asdf slime-fancy slime-banner))
 
 ;; Keybinding to add breakpoint:
 (defun python-add-breakpoint ()
@@ -64,3 +63,5 @@
   (insert "import ipdb; ipdb.set_trace()"))
 
 (global-set-key (kbd "C-h C-k") 'python-add-breakpoint)
+(global-set-key (kbd "C-x C-;") 'comment-region)
+(global-set-key (kbd "C-x C-:") 'uncomment-region)
